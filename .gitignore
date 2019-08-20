@@ -1,0 +1,20 @@
+# Environments
+.env
+.venv
+env/
+.idea
+.idea/
+idea/
+.settings
+.settings/
+settings/
+__pycache__
+__pycache__/
+.idea/workspace.xml
+idea/workspace.xml
+venv/
+ENV/
+env.bak/
+venv.bak/
+/venv/
+*.pyc 
