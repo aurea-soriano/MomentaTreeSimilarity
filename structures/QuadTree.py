@@ -34,7 +34,6 @@ class QuadTree:
         self.total_depth = 0
         self.max_depth = max_depth
         moments = OVMoments(matrix_)
-        print(moments.ovmoments)
         self.min_size = 4
         self.root = Node(None, moments.ovmoments, matrix_, 1, 1)
         self.large_moment = []

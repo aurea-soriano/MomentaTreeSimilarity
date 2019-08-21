@@ -71,7 +71,8 @@ class ProcessGenerator:
             end = timer()
             print("TIMEEEE")
             print(timedelta(seconds=end-start))
-                 
+        
+        '''         
         self.node_positions = []
         self.sources = []
         self.targets = []
@@ -88,7 +89,7 @@ class ProcessGenerator:
         self.targets = self.nj_tree.targets
         print("NJ created")
         
-   
+       '''
 
 
     def calculate_number_vectors(self, tree_level):

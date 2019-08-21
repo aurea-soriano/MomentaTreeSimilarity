@@ -133,8 +133,7 @@ class AppWindow(QMainWindow, UIShell4DSimilarity_MainWindow):
                                        self.strategy_name, self.strategy_index,
                                        self.radiobutton_option, False, 39, 38, 56, 58, self.normalization_check)
             self.njdismatrix = process.njdismatrix
-            self.visualize_nj(process)      
-            self.regressionLineEdit.setText(str(round(process.regression_std_error,2)))
+            self.save_dissimilarity_matrix()
                 
     def save_dissimilarity_matrix(self):
         if self.file_names:
