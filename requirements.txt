@@ -9,7 +9,7 @@ natsort==6.0.0
 networkx==1.11
 numpy==1.13.3
 pandas==0.24.2
-Pillow==5.1.0
+pillow>=6.2.0
 pycairo==1.16.2
 pygobject==3.26.1
 pyparsing==2.2.0
@@ -26,3 +26,4 @@ scipy==0.19.1
 setproctitle==1.1.10
 six==1.11.0
 subprocess32==3.2.7
+
