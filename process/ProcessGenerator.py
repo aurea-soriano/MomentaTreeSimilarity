@@ -9,9 +9,9 @@ from structures.NJTree import NJTree
 from structures.BoVW import BoVW
 import numpy as np
 from sklearn import linear_model, metrics
-from sklearn.cross_validation import train_test_split, cross_val_score, cross_val_predict
+from sklearn.model_selection import train_test_split, cross_val_score, cross_val_predict
 import matplotlib.pyplot as plt
-import math 
+import math
 from timeit import default_timer as timer
 from datetime import timedelta
 
@@ -63,7 +63,7 @@ class ProcessGenerator:
                 self.calculate_dismatrix_matmatrix_point_by_point()
             elif (self.strategy_name == "Momenta Tree"):
                 print("Momenta Tree")
-                self.calculate_dismatrix_matmatrix() 
+                self.calculate_dismatrix_matmatrix()
             elif (self.strategy_name == "Momenta AABB Tree"):
                 self.calculate_dismatrix_matmatrix_aabs()
             elif (self.strategy_name == "Gradient"):
@@ -71,59 +71,59 @@ class ProcessGenerator:
             end = timer()
             print("TIMEEEE")
             print(timedelta(seconds=end-start))
-        
-        '''         
+
+        '''
         self.node_positions = []
         self.sources = []
         self.targets = []
-        
+
         print("Distance calculated")
         start = timer()
         self.nj_tree = NJTree(self.njdismatrix)
         end = timer()
         print("TIMEEEE")
         print(timedelta(seconds=end-start))
-            
+
         self.node_positions = self.nj_tree.node_positions
         self.sources = self.nj_tree.sources
         self.targets = self.nj_tree.targets
         print("NJ created")
-        
+
        '''
 
 
     def calculate_number_vectors(self, tree_level):
         total_number = 0
         tree_level = tree_level - 1
-        
+
         while tree_level>=0:
             total_number = total_number + pow(4, (tree_level))
             tree_level = tree_level - 1
-        
+
         return total_number*7
-        
+
 
     def calculate_regression(self):
         min_depth = 10000
         for quadTree in self.matmatrix.list_representations:
             if min_depth > int(quadTree.total_depth):
                 min_depth = int(quadTree.total_depth)
-        
+
         total_vectors = self.calculate_number_vectors(min_depth)
         self.feature_vectors = []
-        
+
         for i in range(0, total_vectors):
             self.feature_vectors.append([])
-        
+
         output   = []
-        
+
         for index in range(0,len(self.matmatrix.list_representations)):
-            quadTree = self.matmatrix.list_representations[index]                
-            
+            quadTree = self.matmatrix.list_representations[index]
+
             large_moment = quadTree.get_large_moment(min_depth)
             for i in range(0, len(large_moment)):
                 self.feature_vectors[i].append(large_moment[i])
-                
+
             label = str(self.matmatrix.list_labels[index])
             conc_number = ""
             for l in list(label):
@@ -131,26 +131,26 @@ class ProcessGenerator:
                     conc_number = conc_number + str(l)
             label = int(conc_number)
             output.append(label)
-        
+
         X = np.column_stack(self.feature_vectors)
         y = output
-        
+
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=101)
         model = linear_model.LinearRegression()
         model.fit(X_train, y_train)
         predictions1 = model.predict(X_test)
-        
+
         # Perform 6-fold cross validation
         scores = cross_val_score(model, X, y, cv=2)
-        
+
         print("Cross-validated scores:", scores)
         print("mean score:", sum(scores)/len(scores))
-        
+
         predictions = cross_val_predict(model, X, y, cv=2)
         accuracy = metrics.r2_score(y, predictions)
         print("Cross-Predicted Accuracy:", accuracy)
-        
-        
+
+
         # standard error of the estimate
         # sqrt(sum(Y-Y')^2/N)
         error_sum = 0
@@ -160,9 +160,9 @@ class ProcessGenerator:
         print("Standard error",self.regression_std_error )
         #plt.scatter(y_test,predictions)
         #plt.show()
-        
-        
-        
+
+
+
     def apply_mask(self, w1, h1, w2, h2):
         mask = np.ones(self.matmatrix.list_matrices[0].shape)
         for i in range(0, self.matmatrix.list_matrices[0].shape[0]):
@@ -349,9 +349,9 @@ class ProcessGenerator:
             plt.show()
             plt.imshow(result_gradient2, cmap="jet")
             plt.show()
-        
-        
-        
+
+
+
         #mean = self.mean(self.njdismatrix.matrix)
         #std = self.std(self.njdismatrix.matrix, mean)
         #self.njdismatrix.matrix = self.zscore(self.njdismatrix.matrix, mean, std)
